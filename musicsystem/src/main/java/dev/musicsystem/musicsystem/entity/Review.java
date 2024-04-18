@@ -19,7 +19,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "album_id")
-    private Album album;
+    private Album relatedAlbum;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
