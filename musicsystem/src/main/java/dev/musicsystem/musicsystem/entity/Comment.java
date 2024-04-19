@@ -21,7 +21,7 @@ public class Comment {
     @JoinColumn(name = "review_id")
     private Review review;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
