@@ -13,6 +13,6 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     public List<Comment> getCommentsByReviewId(Long reviewId) {
-        return commentRepository.findByReviewReview_id(reviewId);
+        return commentRepository.findByReviewReviewId(reviewId);
     }
 }
