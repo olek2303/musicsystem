@@ -17,9 +17,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long review_id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "album_id")
-    private Album relatedAlbum;
+    private Album album;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
