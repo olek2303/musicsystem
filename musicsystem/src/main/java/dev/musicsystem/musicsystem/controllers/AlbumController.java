@@ -37,24 +37,25 @@ public class AlbumController {
     }
 
     @GetMapping("/{album_id}")
-    public ResponseEntity<Map<String, Object>> getReviewByAlbum_Id(@PathVariable Long album_id) {
-        Album album = albumService.albumByAlbum_Id(album_id);
+    public ResponseEntity<Map<String, Object>> getReviewByAlbumId(@PathVariable Long album_id) {
+        Album album = albumService.albumByAlbumId(album_id);
 
         if (album == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Review review = reviewRepository.getReviewByAlbum_Album_id(album_id);
+        Review review = reviewRepository.getReviewByAlbumId(album_id);
 
         if (review == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        List<Comment> comments = commentService.getCommentsByReviewId(review.getReview_id());
+        List<Comment> comments = commentService.getCommentsByReviewId(review.getReviewId());
 
         Map<String, Object> response = new HashMap<>();
         response.put("album", album);
         response.put("review", review);
+        response.put("comments", comments);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 
