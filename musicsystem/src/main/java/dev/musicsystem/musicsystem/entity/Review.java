@@ -15,14 +15,14 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long review_id;
+    private Long reviewId;
 
     @OneToOne
-    @JoinColumn(name = "album_id")
+    @JoinColumn(name = "albumId")
     private Album album;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column(columnDefinition = "TEXT")
