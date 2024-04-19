@@ -12,8 +12,7 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public List<Comment> getCommentsByReview_id(Long reviewId) {
-        return commentRepository.findByReview_id(reviewId);
+    public List<Comment> getCommentsByReviewId(Long reviewId) {
+        return commentRepository.findByReviewReview_id(reviewId);
     }
-
 }

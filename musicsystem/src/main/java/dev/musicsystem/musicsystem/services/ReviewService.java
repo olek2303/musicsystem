@@ -11,9 +11,5 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    public Review getReviewByAlbum_id(Long albumId) {
-        return reviewRepository.findByRelatedAlbum_Album_id(albumId);
-    }
-
 
 }

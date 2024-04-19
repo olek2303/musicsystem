@@ -3,7 +3,9 @@ package dev.musicsystem.musicsystem.controllers;
 import dev.musicsystem.musicsystem.entity.Album;
 import dev.musicsystem.musicsystem.entity.Comment;
 import dev.musicsystem.musicsystem.entity.Review;
+import dev.musicsystem.musicsystem.repositories.ReviewRepository;
 import dev.musicsystem.musicsystem.services.AlbumService;
+import dev.musicsystem.musicsystem.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,29 +25,38 @@ public class AlbumController {
     @Autowired
     private AlbumService albumService;
 
-    @GetMapping
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private CommentService commentService;
+
+    @GetMapping("")
     public ResponseEntity<List<Album>> getAllAlbums() {
         return new ResponseEntity<>(albumService.AllAlbums(), HttpStatus.OK);
     }
 
     @GetMapping("/{album_id}")
-    public ResponseEntity<Map<String, Object>> getAlbumById(@PathVariable Long album_id) {
-
-        Album album = albumService.getAlbumByAlbum_id(album_id);
+    public ResponseEntity<Map<String, Object>> getReviewByAlbum_Id(@PathVariable Long album_id) {
+        Album album = albumService.albumByAlbum_Id(album_id);
 
         if (album == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Review review = albumService.getReviewByAlbum_id(album_id);
+        Review review = reviewRepository.getReviewByAlbum_Album_id(album_id);
 
-        List<Comment> comments = albumService.getCommentsByReviewId(review.getReview_id());
+        if (review == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Comment> comments = commentService.getCommentsByReviewId(review.getReview_id());
 
         Map<String, Object> response = new HashMap<>();
         response.put("album", album);
         response.put("review", review);
-        response.put("comments", comments);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 }
