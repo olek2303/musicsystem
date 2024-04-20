@@ -13,16 +13,14 @@ public class AlbumService {
     @Autowired
     private AlbumRepository albumRepository;
 
+    public Album AlbumById(Long albumId) { return albumRepository.findById(albumId).orElse(null);}
     public List<Album> AllAlbums() {
         return albumRepository.findAll();
     }
 
     public Album albumByAlbumId(Long albumId) { return albumRepository.findById(albumId).orElse(null);}
 
-
-    public boolean albumExists(Album album) {
-        return albumRepository.existsById(album.getAlbumId());
-    }
+    public boolean albumExists(Album album) { return albumRepository.existsById(album.getAlbumId()); }
 
     public Album saveAlbum(Album album) {
         try {
@@ -36,4 +34,6 @@ public class AlbumService {
     public void deleteAlbum(Long albumId) {
         albumRepository.deleteById(albumId);
     }
+
+
 }

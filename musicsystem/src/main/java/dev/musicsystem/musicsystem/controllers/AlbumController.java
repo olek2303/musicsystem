@@ -51,7 +51,7 @@ public class AlbumController {
         List<Comment> comments = commentService.getCommentsByReviewId(review.getReviewId());
 
         List<Comment> filteredComments = comments.stream()
-                .filter(comment -> !comment.getUser().isEnabled()) // zakładam, że w klasie Comment masz metodę getUser() zwracającą obiekt użytkownika, a w klasie User masz metodę isEnabled() zwracającą wartość boolean
+                .filter(comment -> !comment.getUser().isEnabled())
                 .collect(Collectors.toList());
 
         Map<String, Object> response = new HashMap<>();
