@@ -17,6 +17,23 @@ public class AlbumService {
         return albumRepository.findAll();
     }
 
-    public Album albumByAlbumId(Long albumId) {return albumRepository.findById(albumId).orElse(null);}
+    public Album albumByAlbumId(Long albumId) { return albumRepository.findById(albumId).orElse(null);}
 
+
+    public boolean albumExists(Album album) {
+        return albumRepository.existsById(album.getAlbumId());
+    }
+
+    public Album saveAlbum(Album album) {
+        try {
+            return albumRepository.save(album);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void deleteAlbum(Long albumId) {
+        albumRepository.deleteById(albumId);
+    }
 }
