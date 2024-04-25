@@ -20,7 +20,7 @@ public class CommentController {
     @GetMapping("/all")
     public List<Comment> getAllComments() { return commentService.AllComments();}
 
-    @PostMapping("")
+    @PostMapping(value = "", name="addComment")
     public ResponseEntity<Comment> addComment(@RequestBody Comment comment) {
         if (commentService.commentExists(comment)) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);

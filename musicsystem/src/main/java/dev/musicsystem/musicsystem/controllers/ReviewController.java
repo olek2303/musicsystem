@@ -1,6 +1,7 @@
 package dev.musicsystem.musicsystem.controllers;
 
 import dev.musicsystem.musicsystem.entity.Album;
+import dev.musicsystem.musicsystem.entity.Comment;
 import dev.musicsystem.musicsystem.entity.Review;
 import dev.musicsystem.musicsystem.entity.User;
 import dev.musicsystem.musicsystem.services.AlbumService;
@@ -9,9 +10,7 @@ import dev.musicsystem.musicsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,5 +56,44 @@ public class ReviewController {
         response.put("albums", albums);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "", name = "addNewReview")
+    public ResponseEntity<Void> addReview(@RequestBody Review review) {
+        Review newReview = reviewService.addReview(review);
+        if (newReview != null) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/{reviewId}", name="updateReview")
+    public ResponseEntity<Review> updateReview(@PathVariable Long reviewId, @RequestBody Review updatedReview) {
+        Review existingReview = reviewService.reviewById(reviewId);
+        if (existingReview == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        updatedReview.setReviewId(reviewId);
+        Review savedReview = reviewService.addReview(updatedReview);
+        if (savedReview == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(savedReview, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{reviewId}", name = "deleteReview")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+        Review existingReview = reviewService.reviewById(reviewId);
+        if (existingReview == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        try {
+            reviewService.deleteReview(reviewId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
