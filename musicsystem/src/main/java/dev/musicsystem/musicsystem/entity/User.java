@@ -6,7 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,5 +31,12 @@ public class User {
     private String password;
 
     private boolean enabled;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinTable(
+            name="users_roles",
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
+            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+    private List<Role> roles = new ArrayList<>();
 
 }
