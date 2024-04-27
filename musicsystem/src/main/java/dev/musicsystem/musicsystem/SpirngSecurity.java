@@ -31,9 +31,10 @@ public class SpirngSecurity {
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/users").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/albums").permitAll()
                 ).formLogin(
                         form -> form
-                                .loginPage("/login")
+                                .loginPage("/customlogin") // Ustawiamy niestandardową stronę logowania
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/users")
                                 .permitAll()
