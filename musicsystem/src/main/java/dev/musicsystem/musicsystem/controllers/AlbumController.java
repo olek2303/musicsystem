@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/album")
+@RequestMapping("/api/v1/albums")
 public class AlbumController {
 
     @Autowired
