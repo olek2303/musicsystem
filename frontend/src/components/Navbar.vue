@@ -1,13 +1,26 @@
-<script setup>
-
-</script>
-
 <template>
+
   <nav>
-    <router-link to="/">Home</router-link>
-    <router-link to="/register">Register</router-link>
-    <!-- Add more links as needed -->
+    <div class="flex flex-wrap items-center justify-between mx-auto p-8">
+      <router-link to="/" class="text-2xl font-bold">Music Reviews</router-link>
+      <div>
+        <router-link to="/home" class="block py-2 pl-3 pr-4 sm:text-xl rounded md:p-0 hover:text-white">Home</router-link>
+        <router-link to="/reviews" class="mr-4">Reviews</router-link>
+        <router-link to="/collection" class="mr-4">My Collection</router-link>
+        <router-link to="/login" class="mr-4">Log In</router-link>
+        <router-link to="/register">Register</router-link>
+      </div>
+    </div>
   </nav>
+
+<!--  <nav>-->
+<!--    <router-link to="/">Home</router-link>-->
+<!--    <router-link to="">Reviews</router-link>-->
+<!--    <router-link to="">My Collection</router-link>-->
+<!--    <router-link to="">Log In</router-link>-->
+<!--    <router-link to="/register">Register</router-link>-->
+<!--    &lt;!&ndash; Add more links as needed &ndash;&gt;-->
+<!--  </nav>-->
 </template>
 
 <script>
