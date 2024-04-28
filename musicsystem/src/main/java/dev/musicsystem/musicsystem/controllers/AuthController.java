@@ -1,67 +1,40 @@
 package dev.musicsystem.musicsystem.controllers;
 
-import dev.musicsystem.musicsystem.dto.UserDto;
-import dev.musicsystem.musicsystem.entity.User;
-import dev.musicsystem.musicsystem.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import dev.musicsystem.musicsystem.dto.AuthenticationRequest;
+import dev.musicsystem.musicsystem.dto.AuthenticationResponse;
+import dev.musicsystem.musicsystem.dto.RegistrationRequest;
+import dev.musicsystem.musicsystem.services.AuthenticationService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Controller
+@RestController
+@RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
+@Tag(name = "Authentication")
 public class AuthController {
 
-    @Autowired
-    public UserService userService;
+    private final AuthenticationService authenticationService;
 
-    @GetMapping("/index")
-    public String home() {
-        return "index";
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResponseEntity<?> register(@RequestBody @Valid RegistrationRequest request) throws MessagingException {
+        authenticationService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/register")
-    public String showRegisterForm(Model model) {
-        UserDto user = new UserDto();
-        model.addAttribute("user", user);
-        return "register";
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest request) {
+        return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 
-    @PostMapping("/register/save")
-    public String registration(@ModelAttribute("user") UserDto userDto,
-                               BindingResult result,
-                               Model model){
-        User existingUser = userService.findUserByEmail(userDto.getEmail());
-
-        if(existingUser != null && existingUser.getEmail() != null && !existingUser.getEmail().isEmpty()){
-            result.rejectValue("email", null,
-                    "There is already an account registered with the same email");
-        }
-
-        if(result.hasErrors()){
-            model.addAttribute("user", userDto);
-            return "/register";
-        }
-
-        userService.saveUser(userDto);
-        return "redirect:/register?success";
+    @GetMapping("/activate-account")
+    public void confirm(@RequestParam String token) throws MessagingException {
+        authenticationService.activateAccount(token);
     }
-
-    @GetMapping("/users")
-    public String users(Model model){
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "users";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-
-
 
 }
