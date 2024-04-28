@@ -6,7 +6,6 @@ import dev.musicsystem.musicsystem.entity.Review;
 import dev.musicsystem.musicsystem.entity.User;
 import dev.musicsystem.musicsystem.services.AlbumService;
 import dev.musicsystem.musicsystem.services.ReviewService;
-import dev.musicsystem.musicsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,6 @@ public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private AlbumService albumService;

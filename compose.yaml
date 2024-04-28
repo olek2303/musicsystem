@@ -7,11 +7,9 @@ services:
       POSTGRES_USER: olek
     ports:
       - '5432'
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@localhost.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_LISTEN_PORT: 5050
+  mail-dev:
+    container_name: mail-dev-bsn
+    image: maildev/maildev
     ports:
-      - '5050:5050'
+      - 1080:1080
+      - 1025:1025
