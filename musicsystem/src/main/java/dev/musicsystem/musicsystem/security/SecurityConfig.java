@@ -31,19 +31,13 @@ public class SecurityConfig {
             http
                     .cors(withDefaults())
                     .csrf(AbstractHttpConfigurer::disable)
-                    .authorizeHttpRequests(req ->
-                            req.requestMatchers(HttpMethod.POST,
-                                            "/api/v1/albums/**",
-                                            "/api/v1/auth/**",
-                                            "/api/v1/reviews/**",
-                                            "/api/v1/comments/**").permitAll()
-                                    .requestMatchers(HttpMethod.GET,
-                                            "/api/v1/albums/**",
-                                            "/api/v1/auth/**",
-                                            "/api/v1/reviews/**",
-                                            "/api/v1/comments/**").permitAll()
-                                    .requestMatchers(HttpMethod.POST, "/api/v1/comments/add").authenticated()
-                                    .anyRequest().authenticated()
+                    .authorizeHttpRequests(req -> req
+                            .requestMatchers("/api/v1/auth/**",
+                                    "/api/v1/albums/**",
+                                    "/api/v1/reviews/**",
+                                    "/api/v1/auth/register").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/v1/comments/add").authenticated()
+                            .anyRequest().denyAll()
                     )
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .authenticationProvider(authenticationProvider)
