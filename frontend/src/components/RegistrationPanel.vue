@@ -34,11 +34,13 @@ export default {
   },
   methods: {
     async register() {
+      console.log('register method called') // Add this line
+      console.log('user data:', this.user) // Add this line
       try {
-        const response = await axios.post('/api/v1/register/save', this.user)
-        console.log(response.data)
+        const response = await axios.post('http://localhost:8080/api/v1/auth/register', this.user)
+        console.log('response:', response) // Add this line
       } catch (error) {
-        console.error(error)
+        console.error('error:', error) // Add this line
       }
     }
   }
