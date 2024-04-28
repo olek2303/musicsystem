@@ -51,7 +51,7 @@ public class AlbumController {
         List<Comment> comments = commentService.getCommentsByReviewId(review.getReviewId());
 
         List<Comment> filteredComments = comments.stream()
-                .filter(comment -> !comment.getUser().isEnabled())
+                .filter(comment -> !comment.getUser().getRoles().equals("ADMIN"))
                 .collect(Collectors.toList());
 
         Map<String, Object> response = new HashMap<>();
