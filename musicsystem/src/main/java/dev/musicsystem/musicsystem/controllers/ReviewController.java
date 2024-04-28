@@ -6,6 +6,7 @@ import dev.musicsystem.musicsystem.entity.Review;
 import dev.musicsystem.musicsystem.entity.User;
 import dev.musicsystem.musicsystem.services.AlbumService;
 import dev.musicsystem.musicsystem.services.ReviewService;
+import dev.musicsystem.musicsystem.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,9 @@ public class ReviewController {
     @Autowired
     private AlbumService albumService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("")
     public ResponseEntity<Map<String, Object>> getAllReviews() {
         List<Review> reviews = reviewService.AllReviews();
@@ -35,7 +39,7 @@ public class ReviewController {
         List<Album> albums = new ArrayList<>();
 
         for(Review review : reviews) {
-            User u = userService.UserById(review.getUser().getUserId());
+            User u = userService.userById(review.getUser().getId());
             Album a = albumService.AlbumById(review.getAlbum().getAlbumId());
 
             if (u == null) {
