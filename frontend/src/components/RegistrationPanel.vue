@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <h2>Registration</h2>
-    <form @submit.prevent="register">
-      <label>
+  <div class="w-full items-center flex flex-col">
+    <h2 class="pb-2">Registration</h2>
+    <form @submit.prevent="register" class="grid grid-cols-1">
+      <label class="pb-1">
         Name:
         <input v-model="user.username" type="text" required>
       </label>
-      <label>
+      <label class="pb-1">
         Email:
         <input v-model="user.email" type="email" required>
       </label>
-      <label>
+      <label class="pb-1">
         Password:
         <input v-model="user.password" type="password" required>
       </label>
