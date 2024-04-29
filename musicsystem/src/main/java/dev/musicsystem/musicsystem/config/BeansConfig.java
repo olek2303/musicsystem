@@ -19,6 +19,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Properties;
 
 @Configuration
 @RequiredArgsConstructor
@@ -41,7 +42,16 @@ public class BeansConfig {
 
     @Bean
     public JavaMailSender mailSender() {
-        return new JavaMailSenderImpl();
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("localhost");
+        mailSender.setPort(1025);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "false"); // Ustaw na true, jeśli MailDev wymaga uwierzytelnienia
+        props.put("mail.smtp.starttls.enable", "false"); // Ustaw na true, jeśli wymagane jest STARTTLS
+
+        return mailSender;
     }
 
     @Bean
