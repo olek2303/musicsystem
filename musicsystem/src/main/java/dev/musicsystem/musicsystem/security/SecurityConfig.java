@@ -35,9 +35,19 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/auth/**",
                                     "/api/v1/albums/**",
                                     "/api/v1/reviews/**",
-                                    "/api/v1/auth/register").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/api/v1/comments/add").authenticated()
-                            .anyRequest().denyAll()
+                                    "/api/v1/auth/register",
+                                    "/api/v1/auth/**",
+                                    "/v2/api-docs",
+                                    "/v3/api-docs",
+                                    "/v3/api-docs/**",
+                                    "/swagger-resources",
+                                    "/swagger-resources/**",
+                                    "/configuration/ui",
+                                    "/configuration/security",
+                                    "/swagger-ui/**",
+                                    "/webjars/**",
+                                    "/swagger-ui.html").permitAll()
+                            .anyRequest().authenticated()
                     )
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .authenticationProvider(authenticationProvider)

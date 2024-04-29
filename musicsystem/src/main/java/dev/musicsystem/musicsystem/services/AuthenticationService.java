@@ -10,7 +10,6 @@ import dev.musicsystem.musicsystem.repositories.TokenRepository;
 import dev.musicsystem.musicsystem.repositories.UserRepository;
 import dev.musicsystem.musicsystem.security.JwtService;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -95,21 +94,19 @@ public class AuthenticationService {
         var claims = new HashMap<String, Object>();
         var user = ((User)auth.getPrincipal());
         claims.put("username", user.getUsername());
-        var jwtToken = jwtService.generateToken(claims, user);
+        var jwtToken = jwtService.generateToken(claims, (User) auth.getPrincipal());
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
 // @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token)
-                // todo exception handling
                 .orElseThrow(() -> new RuntimeException("Token not found"));
         if(LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("Activation token has expired. New has been sent.");
         }
         var user = userRepository.findById(savedToken.getUser().getId())
-                // todo exception handling
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setEnabled(true);
         userRepository.save(user);
