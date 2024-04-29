@@ -4,7 +4,7 @@
 
 <template>
   <footer>
-    <p>© 2024 Music Reviews</p>
+    <p class="flex justify-center">© 2024 Music Reviews</p>
   </footer>
 </template>
 

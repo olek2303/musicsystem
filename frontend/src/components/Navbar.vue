@@ -1,14 +1,16 @@
 <template>
 
-  <nav>
+  <nav class="w-full block">
     <div class="flex flex-wrap items-center justify-between mx-auto p-8">
       <router-link to="/" class="text-2xl font-bold">Music Reviews</router-link>
-      <div>
-        <router-link to="/home" class="block py-2 pl-3 pr-4 sm:text-xl rounded md:p-0 hover:text-white">Home</router-link>
+      <div class="justify-between flex">
+        <router-link to="/home" class="mr-4 hover:text-white">Home</router-link>
         <router-link to="/reviews" class="mr-4">Reviews</router-link>
-        <router-link to="/collection" class="mr-4">My Collection</router-link>
-        <router-link to="/login" class="mr-4">Log In</router-link>
-        <router-link to="/register">Register</router-link>
+        <router-link to="/collection" class="mr-7">My Collection</router-link>
+        <div>
+          <router-link to="/login" class="mr-4">Log In</router-link>
+          <router-link to="/register">Register</router-link>
+        </div>
       </div>
     </div>
   </nav>
