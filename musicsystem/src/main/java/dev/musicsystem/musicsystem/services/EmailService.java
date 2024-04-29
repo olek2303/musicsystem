@@ -3,6 +3,7 @@ package dev.musicsystem.musicsystem.services;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class EmailService {
 
@@ -47,12 +49,12 @@ public class EmailService {
         Map<String, Object> properties = new HashMap<>();
         properties.put("username", username);
         properties.put("confirmationUrl", confirmationUrl);
-        properties.put("activationCode", activationCode);
+        properties.put("activation_code", activationCode);
 
         Context context = new Context();
         context.setVariables(properties);
 
-        helper.setFrom("contact@karpiuk.dev");
+        helper.setFrom("contact@example.com");
         helper.setTo(to);
         helper.setSubject(subject);
 
