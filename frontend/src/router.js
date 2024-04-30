@@ -4,6 +4,7 @@ import Register from './components/RegistrationPanel.vue'
 
 const routes = [
     { path: '/', component: Home },
+    { path: '/home', component: Home },
     { path: '/register', component: Register }
 ]
 

@@ -1,16 +1,16 @@
 <template>
 
-  <nav class="w-full block">
-    <div class="flex flex-wrap items-center justify-between mx-auto p-8">
-      <router-link to="/" class="text-2xl font-bold">Music Reviews</router-link>
-      <div class="justify-between flex">
-        <router-link to="/home" class="mr-4 hover:text-white">Home</router-link>
-        <router-link to="/reviews" class="mr-4">Reviews</router-link>
-        <router-link to="/collection" class="mr-7">My Collection</router-link>
-        <div>
-          <router-link to="/login" class="mr-4">Log In</router-link>
-          <router-link to="/register">Register</router-link>
-        </div>
+  <nav class="w-full  place-items-center">
+    <div class="flex flex-col sm:flex-row items-center justify-between mx-auto p-8">
+      <router-link to="/home" class="duration-300 w-full sm:w-auto mb-3 sm:mb-0 text-2xl font-bold md:max-lg:ml-18 sm:max-md:ml-6">Music Reviews</router-link>
+      <div class="justify-between mb-3 sm:mb-0 flex flex-col sm:flex-row items-center">
+        <router-link to="/home" class="mr-4 transition ease-in-out duration-300 hover:text-white">Home</router-link>
+        <router-link to="/reviews" class="mr-4 transition ease-in-out duration-300 hover:text-white">Reviews</router-link>
+        <router-link to="/collection" class="mr-7 transition ease-in-out duration-300 hover:text-white">My Collection</router-link>
+      </div>
+      <div class="md:mr-18 sm:mr-6 items-center flex flex-col sm:flex-row items-center">
+        <router-link to="/login" class="mr-4 transition ease-in-out duration-300 hover:text-white">Log In</router-link>
+        <router-link to="/register" class="mr-4 sm:mr-0transition ease-in-out duration-300 hover:text-white">Register</router-link>
       </div>
     </div>
   </nav>
