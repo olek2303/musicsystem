@@ -5,15 +5,35 @@
 <!-- Home.vue -->
 <template>
   <div>
-    <h2>Welcome to our website!</h2>
-    <router-link to="/register">Register</router-link>
+    <h2>Mainly reviews of rock albums and many of its subgenres.</h2>
+    <div class="mb-36">
+      <h1>Latest Reviews</h1>
+      <div v-for="album in albums" :key="album.id" class="flex flex-row justify-center">
+        <h1 class="mr-3">{{ album.title }}</h1>
+        <p>{{ album.artist }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
-  name: 'Home'
-}
+  data() {
+    return {
+      albums: [],
+    }
+  },
+  async created() {
+    try {
+      const response = await axios.get('http://localhost:8080/api/v1/albums');
+      this.albums = response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+};
 </script>
 
 <style scoped>
