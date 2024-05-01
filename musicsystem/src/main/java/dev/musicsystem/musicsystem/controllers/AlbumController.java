@@ -1,19 +1,21 @@
 package dev.musicsystem.musicsystem.controllers;
 
+import dev.musicsystem.musicsystem.dto.AlbumDTO;
 import dev.musicsystem.musicsystem.entity.Album;
 import dev.musicsystem.musicsystem.entity.Comment;
 import dev.musicsystem.musicsystem.entity.Review;
 import dev.musicsystem.musicsystem.repositories.ReviewRepository;
 import dev.musicsystem.musicsystem.services.AlbumService;
 import dev.musicsystem.musicsystem.services.CommentService;
+import dev.musicsystem.musicsystem.services.GoogleDriveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,9 +31,22 @@ public class AlbumController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private GoogleDriveService googleDriveService;
+
     @GetMapping("")
-    public ResponseEntity<List<Album>> getAllAlbums() {
-        return new ResponseEntity<>(albumService.AllAlbums(), HttpStatus.OK);
+    public ResponseEntity<List<AlbumDTO>> getAllAlbums() throws IOException {
+        List<Album> albums = albumService.AllAlbums();
+        List<AlbumDTO> albumsDto = new ArrayList<>();
+        for(Album album : albums) {
+            AlbumDTO albumDto = new AlbumDTO(album);
+            String name = album.getTitle() + ".jpg";
+            ByteArrayOutputStream photoStream = GoogleDriveService.downloadFileByName(name);
+            String base64img = Base64.getEncoder().encodeToString(photoStream.toByteArray());
+            albumDto.setPhotoUrl("data:image/jpeg;base64," + base64img);
+            albumsDto.add(albumDto);
+        }
+        return new ResponseEntity<>(albumsDto, HttpStatus.OK);
     }
 
     @GetMapping("/{album_id}")
