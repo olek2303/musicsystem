@@ -24,5 +24,7 @@ public class Album {
     @Temporal(TemporalType.DATE)
     private Date release_date;
 
+    private String photoId;
+
 }
 
