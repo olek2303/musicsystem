@@ -49,15 +49,15 @@ public class AlbumController {
         return new ResponseEntity<>(albumsDto, HttpStatus.OK);
     }
 
-    @GetMapping("/{album_id}")
-    public ResponseEntity<Map<String, Object>> getReviewByAlbumId(@PathVariable Long album_id) {
-        Album album = albumService.albumByAlbumId(album_id);
+    @GetMapping("/{albumId}")
+    public ResponseEntity<Map<String, Object>> getReviewByAlbumId(@PathVariable Long albumId) {
+        Album album = albumService.albumByAlbumId(albumId);
 
         if (album == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Review review = reviewRepository.getReviewByAlbumId(album_id);
+        Review review = reviewRepository.getReviewByAlbumId(albumId);
 
         if (review == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

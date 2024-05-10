@@ -8,7 +8,7 @@
         <router-link to="/reviews" class="mr-4 transition ease-in-out duration-300 hover:text-white">Reviews</router-link>
         <router-link to="/collection" class="mr-7 transition ease-in-out duration-300 hover:text-white">My Collection</router-link>
       </div>
-      <div class="md:mr-18 sm:mr-6 items-center flex flex-col sm:flex-row items-center">
+      <div class="md:mr-18 sm:mr-6 flex flex-col sm:flex-row items-center">
         <router-link to="/login" class="mr-4 transition ease-in-out duration-300 hover:text-white">Log In</router-link>
         <router-link to="/register" class="mr-4 sm:mr-0transition ease-in-out duration-300 hover:text-white">Register</router-link>
       </div>
