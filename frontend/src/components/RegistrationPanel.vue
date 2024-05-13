@@ -21,6 +21,7 @@
 
 <script>
 import axios from 'axios'
+import router from '../router'
 
 export default {
   data() {
@@ -38,7 +39,8 @@ export default {
       console.log('user data:', this.user) // Add this line
       try {
         const response = await axios.post('http://localhost:8080/api/v1/auth/register', this.user)
-        console.log('response:', response) // Add this line
+        console.log('response:', response) // Add this
+        alert('Registration successful. Please check your email to activate your account.')
       } catch (error) {
         console.error('error:', error) // Add this line
       }
