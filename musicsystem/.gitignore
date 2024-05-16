@@ -32,6 +32,8 @@ build/
 !**/src/test/**/build/
 cred.json
 cred2.json
+fireCred.json
+fireCred2.json
 
 ### VS Code ###
 .vscode/

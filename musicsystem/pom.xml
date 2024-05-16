@@ -105,6 +105,19 @@
 			<artifactId>google-oauth-client-jetty</artifactId>
 			<version>1.35.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.2.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.grpc/grpc-core -->
+		<dependency>
+			<groupId>io.grpc</groupId>
+			<artifactId>grpc-core</artifactId>
+			<version>1.62.2</version>
+		</dependency>
+
+
 
 
 	</dependencies>
