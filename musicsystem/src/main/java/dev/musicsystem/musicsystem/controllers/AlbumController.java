@@ -7,6 +7,7 @@ import dev.musicsystem.musicsystem.entity.Review;
 import dev.musicsystem.musicsystem.repositories.ReviewRepository;
 import dev.musicsystem.musicsystem.services.AlbumService;
 import dev.musicsystem.musicsystem.services.CommentService;
+import dev.musicsystem.musicsystem.services.FirebaseService;
 import dev.musicsystem.musicsystem.services.GoogleDriveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class AlbumController {
     private CommentService commentService;
 
     @Autowired
-    private GoogleDriveService googleDriveService;
+    private FirebaseService firebaseService;
 
     @GetMapping("")
     public ResponseEntity<List<AlbumDTO>> getAllAlbums() throws IOException {
@@ -41,9 +42,10 @@ public class AlbumController {
         for(Album album : albums) {
             AlbumDTO albumDto = new AlbumDTO(album);
             String name = album.getTitle() + ".jpg";
-            ByteArrayOutputStream photoStream = GoogleDriveService.downloadFileByName(name);
-            String base64img = Base64.getEncoder().encodeToString(photoStream.toByteArray());
-            albumDto.setPhotoUrl("data:image/jpeg;base64," + base64img);
+            String photoUrl = firebaseService.getFirebaseStorageImageUrl(name);
+//            ByteArrayOutputStream photoStream = GoogleDriveService.downloadFileByName(name);
+//            String base64img = Base64.getEncoder().encodeToString(photoStream.toByteArray());
+            albumDto.setPhotoUrl(photoUrl);
             albumsDto.add(albumDto);
         }
         return new ResponseEntity<>(albumsDto, HttpStatus.OK);

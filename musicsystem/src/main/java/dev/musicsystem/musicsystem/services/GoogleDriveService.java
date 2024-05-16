@@ -37,6 +37,7 @@ public class GoogleDriveService {
 
     private static String getPathToGoogleCred() {
         String currentDir = System.getProperty("user.dir");
+        currentDir += "/musicsystem/";
         Path filePath = Paths.get(currentDir, "cred.json");
         return filePath.toString();
     }
