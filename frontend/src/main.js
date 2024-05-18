@@ -3,5 +3,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router.js'
 import "./assets/style.css";
+import { eventBus } from "./eventBus";
 
-createApp(App).use(router).mount('#app')
+const app = createApp(App).use(router);
+app.config.globalProperties.$eventBus = eventBus;
+app.mount('#app');
