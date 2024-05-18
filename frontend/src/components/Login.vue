@@ -38,8 +38,8 @@ export default {
         const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate', this.user)
         console.log('response:', response)
         window.alert('Login successful.')
-        this.$eventBus.emit('login-success', { isLoggedIn: true, userNickname: 'UserNickname' });
-        localStorage.setItem('auth', JSON.stringify({ isLoggedIn: true, userNickname: 'UserNickname' }));
+        this.$eventBus.emit('login-success', { isLoggedIn: true, userNickname: this.user.email });
+        localStorage.setItem('auth', JSON.stringify({ isLoggedIn: true, userNickname: this.user.email }));
         router.push('/')
       } catch (error) {
         console.error('error:', error)
