@@ -52,21 +52,6 @@ public class FirebaseService {
         return FirebaseApp.getInstance();
     }
 
-//    public String getFirebaseStorageImageUrl(String imageName) {
-//        Storage storage = StorageOptions.getDefaultInstance().getService();
-//
-//        String bucketName = "musicreviews.appspot.com";
-//        String imagePath = imageName;
-//        BlobId blobId = BlobId.of(bucketName, imagePath);
-//        Blob blob = storage.get(blobId);
-//
-//        if (blob != null) {
-//            return blob.getMediaLink();
-//        } else {
-//            return null; // Możesz obsłużyć ten przypadek zwracając null lub rzucając wyjątek
-//        }
-//    }
-
     public String getFirebaseStorageImageUrl(String imageName) throws IOException {
         FileInputStream serviceAccount = new FileInputStream(getPathToFirebaseCred());
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);

@@ -9,8 +9,14 @@
         <router-link to="/collection" class="mr-7 transition ease-in-out duration-300 hover:text-white">My Collection</router-link>
       </div>
       <div class="md:mr-18 sm:mr-6 flex flex-col sm:flex-row items-center">
-        <router-link to="/login" class="mr-4 transition ease-in-out duration-300 hover:text-white">Log In</router-link>
-        <router-link to="/register" class="mr-4 sm:mr-0transition ease-in-out duration-300 hover:text-white">Register</router-link>
+        <template v-if="auth && auth.isLoggedIn">
+          <span class="mr-4">{{ auth.userNickname }}</span>
+          <a href="#" class="mr-4 sm:mr-0 transition ease-in-out duration-300 hover:text-white" @click.prevent="logout">Log Out</a>
+        </template>
+        <template v-else>
+          <router-link to="/login" class="mr-4 transition ease-in-out duration-300 hover:text-white">Log In</router-link>
+          <router-link to="/register" class="mr-4 sm:mr-0 transition ease-in-out duration-300 hover:text-white">Register</router-link>
+        </template>
       </div>
     </div>
   </nav>
@@ -27,8 +33,19 @@
 
 <script>
 export default {
-  name: 'Navbar'
-
+  name: 'Navbar',
+  props: {
+    auth: Object
+  },
+  methods: {
+    logout() {
+      // Perform any necessary cleanup before logging out
+      // Then emit the logout event
+      this.$eventBus.emit('logout');
+      // Redirect to login page or home page as needed
+      this.$router.push({ name: 'login' });
+    }
+  }
 }
 </script>
 
