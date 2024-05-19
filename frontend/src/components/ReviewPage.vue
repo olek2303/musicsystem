@@ -1,21 +1,28 @@
 <template>
-  <div>
-    <div v-if="loading">Loading...</div>
-    <div v-else>
-      <h1>{{ album ? album.title : '' }}</h1>
-      <img :src="album ? album.photoUrl : ''" :alt="album ? album.title : ''" style="max-width: 300px;">
-      <p>{{ album ? album.artist : '' }}</p>
-      <h2>Review</h2>
-      <p>{{ review ? review.content : '' }}</p>
-      <h3>Comments</h3>
-      <ul v-if="comments && comments.length">
-        <li v-for="comment in comments" :key="comment.id">
-          <strong>{{ comment.user }}</strong>: {{ comment.text }}
-        </li>
-      </ul>
-      <div v-else>No comments</div>
-    </div>
+  <div v-if="loading" class="flex items-center justify-center min-h-screen">
+    <div class="text-2xl">Loading...</div>
   </div>
+  <div v-else class="container mx-auto p-6">
+    <div class="flex flex-col md:flex-row justify-start items-start space-y-6 md:space-y-0 md:space-x-6">
+      <div class="md:w-1/3 w-auto">
+        <h1 class="text-3xl font-bold mb-2">{{ album ? album.title : '' }}</h1>
+        <p class="text-xl mb-4 italic">{{ album ? album.artist : '' }}</p>
+        <img :src="album ? album.photoUrl : ''" :alt="album ? album.title : ''" class="w-full md:w-auto rounded-lg shadow-md">
+      </div>
+      <div class="md:w-2/3">
+        <h2 class="text-2xl font-semibold mb-4">Review</h2>
+        <p class="mb-6 leading-relaxed text-justify">{{ review ? review.content : '' }}</p>
+      </div>
+    </div>
+    <h3 class="text-xl font-semibold mb-2">Comments</h3>
+    <ul v-if="comments && comments.length" class="space-y-4">
+      <li v-for="comment in comments" :key="comment.id" class="border-b pb-2">
+        <strong class="text-gray-900">{{ comment.user }}</strong>: <span class="text-gray-700">{{ comment.text }}</span>
+      </li>
+    </ul>
+    <div v-else class="text-gray-500">No comments</div>
+  </div>
+
 </template>
 
 

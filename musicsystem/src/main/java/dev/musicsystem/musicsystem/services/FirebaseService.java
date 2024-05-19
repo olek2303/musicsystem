@@ -59,13 +59,13 @@ public class FirebaseService {
         String imagePath = imageName;
         Iterable<Blob> blobs = storage.list("musicreviews.appspot.com").iterateAll();
 
-        System.out.println("Files in " + "musicreviews.appspot.com" + ":");
+        // System.out.println("Files in " + "musicreviews.appspot.com" + ":");
         for (Blob blob : blobs) {
             if (blob.getName().equals(imageName)) {
                 return "https://firebasestorage.googleapis.com/v0/b/musicreviews.appspot.com/o/"+imageName+"?alt=media";
 
             }
-            System.out.println(blob.getName());
+            // System.out.println(blob.getName());
         }
 
         return null;
