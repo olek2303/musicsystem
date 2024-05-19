@@ -52,12 +52,15 @@ public class AlbumController {
     }
 
     @GetMapping("/{albumId}")
-    public ResponseEntity<Map<String, Object>> getReviewByAlbumId(@PathVariable Long albumId) {
+    public ResponseEntity<Map<String, Object>> getReviewByAlbumId(@PathVariable Long albumId) throws IOException {
         Album album = albumService.albumByAlbumId(albumId);
 
         if (album == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        AlbumDTO albumDto = new AlbumDTO(album);
+        albumDto.setPhotoUrl(firebaseService.getFirebaseStorageImageUrl(album.getTitle() + ".jpg"));
 
         Review review = reviewRepository.getReviewByAlbumId(albumId);
 
@@ -72,7 +75,7 @@ public class AlbumController {
                 .collect(Collectors.toList());
 
         Map<String, Object> response = new HashMap<>();
-        response.put("album", album);
+        response.put("album", albumDto);
         response.put("review", review);
         response.put("comments", filteredComments);
 
