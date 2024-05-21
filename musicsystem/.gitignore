@@ -35,6 +35,9 @@ cred2.json
 fireCred.json
 fireCred2.json
 
+application.yml
+application-dev.yml
+.secrets
 ### VS Code ###
 .vscode/
 ./frontend/.env
