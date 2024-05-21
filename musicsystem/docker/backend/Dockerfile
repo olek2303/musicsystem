@@ -1,0 +1,21 @@
+# Build stage
+FROM maven:3.8.7-openjdk-18 AS build
+WORKDIR /build
+COPY pom.xml .
+RUN mvn dependency:go-offline
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Runtime stage
+FROM amazoncorretto:17
+ARG PROFILE=dev
+ARG APP_VERSION=1.0.0
+ENV PROFILE=${PROFILE}
+ENV APP_VERSION=${APP_VERSION}
+ENV DB_URL=jdbc:postgresql://postgres-music-system:5432/musicsystem
+
+WORKDIR /app
+COPY --from=build /build/target/musicsystem-*.jar /app/
+
+EXPOSE 8080
+CMD java -jar -Dspring-profiles.active=${PROFILE} -Dspring.datasource.url=${DB_URL} musicsystem-${APP_VERSION}.jar
