@@ -42,7 +42,7 @@ export default {
   async created() {
     try {
       const albumId = this.$route.params.id;
-      const response = await axios.get(`http://localhost:8080/api/v1/albums/${albumId}`);
+      const response = await axios.get(`http://localhost:8088/api/v1/albums/${albumId}`);
 
 
       const {album, review, comments} = response.data;

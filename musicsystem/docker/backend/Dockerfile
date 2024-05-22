@@ -16,6 +16,7 @@ ENV DB_URL=jdbc:postgresql://postgres-music-system:5432/musicsystem
 
 WORKDIR /app
 COPY --from=build /build/target/musicsystem-*.jar /app/
+COPY fireCred.json /app/musicsystem/fireCred.json
 
-EXPOSE 8080
+EXPOSE 8088
 CMD java -jar -Dspring-profiles.active=${PROFILE} -Dspring.datasource.url=${DB_URL} musicsystem-${APP_VERSION}.jar
