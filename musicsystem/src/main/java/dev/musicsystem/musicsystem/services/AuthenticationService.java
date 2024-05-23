@@ -32,7 +32,7 @@ public class AuthenticationService {
     private final EmailService emailService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private String activationUrl = "http://localhost:5173/activate-account";
+    private String activationUrl = "http://localhost:8080/activate-account";
 
     public void register(RegistrationRequest request) throws MessagingException {
         var userRole = roleRepository.findByName("USER")
