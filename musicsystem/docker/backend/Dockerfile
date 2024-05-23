@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 # Runtime stage
 FROM amazoncorretto:17
 ARG PROFILE=dev
-ARG APP_VERSION=1.0.0
+ARG APP_VERSION=1.0.1
 ENV PROFILE=${PROFILE}
 ENV APP_VERSION=${APP_VERSION}
 ENV DB_URL=jdbc:postgresql://postgres-music-system:5432/musicsystem
