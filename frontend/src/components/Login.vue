@@ -35,7 +35,7 @@ export default {
       console.log('login method called')
       console.log('user data:', this.user)
       try {
-        const response = await axios.post('http://localhost:8080/api/v1/auth/authenticate', this.user)
+        const response = await axios.post('http://localhost:8088/api/v1/auth/authenticate', this.user)
         console.log('response:', response)
         window.alert('Login successful.')
         this.$eventBus.emit('login-success', { isLoggedIn: true, userNickname: this.user.email });

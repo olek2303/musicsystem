@@ -24,7 +24,7 @@ export default {
   methods: {
     async activate() {
       try {
-        await axios.get(`http://localhost:8080/api/v1/auth/activate-account?token=${this.activationCode}`)
+        await axios.get(`http://localhost:8088/api/v1/auth/activate-account?token=${this.activationCode}`)
         alert('Account activated successfully.')
         router.push('/login') // redirect to login page after successful activation
       } catch (error) {
