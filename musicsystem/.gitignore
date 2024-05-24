@@ -1,6 +1,6 @@
 ../README.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
+!musicsystem/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 ../compose.yaml
@@ -41,3 +41,4 @@ application-dev.yml
 ### VS Code ###
 .vscode/
 ./frontend/.env
+.env
