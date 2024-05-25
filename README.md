@@ -1,4 +1,101 @@
-# Getting Started
+# Music Reviews System
+
+## Introduction
+
+Welcome to the Music Reviews System documentation. 
+This project aims to provide a Full Stack web application to post music albums reviews and let users comment it. 
+The goal of this project is to create a community where users can discover new music and share their opinions about it 
+but also interact with other people.
+It is built using Java for the backend and Vue.js for the frontend.
+
+### Key Features
+- **Post Album Review** - user with role `ADMIN` can post a review of an album
+- **Comment Review** - user with role `USER` or `ADMIN` can comment on a review
+- **User Authentication** - user can register and login to the system
+
+### Technologies Used
+- **Backend:** Java (Spring Boot (REST API), Hibernate (ORM))
+- **Frontend:** Vue.js (Vuex, Vue Router, etc.)
+- **Database:** PostgreSQL
+- **Deployment:** Docker, Docker Compose
+- **Authentication:** JWT (JSON Web Token) for secure authentication
+
+
+
+
+## Getting Started
+
+### Prerequisites
+Before you begin, ensure you have met the following requirements:
+- Java (version 17 or later)
+- Node.js (version 16 or later)
+- npm or Yarn
+- PostgreSQL
+- Docker and Docker Compose (optional)
+- Git
+- IDE (IntelliJ IDEA, Eclipse, Visual Studio Code, etc.)
+
+### Installation
+1. **Clone the repository:**
+    ```sh
+    git clone https://github.com/yourusername/your-repo.git
+    ```
+2. **Backend Setup:**
+    - Navigate to the backend directory:
+        ```sh
+        cd backend
+        ```
+    - Install dependencies:
+        ```sh
+        ./mvnw install
+        ```
+    - Run the application:
+        ```sh
+        ./mvnw spring-boot:run
+        ```
+3. **Frontend Setup:**
+    - Navigate to the frontend directory:
+        ```sh
+        cd frontend
+        ```
+    - Install dependencies:
+        ```sh
+        npm install
+        # or
+        yarn install
+        ```
+    - Run the application:
+        ```sh
+        npm run serve
+        # or
+        yarn serve
+        ```
+4. **Accessing the Application:**
+    - Open your browser and go to `http://localhost:8080` (or the configured port).
+
+### Configuration
+1. **application.properties** - backend application properties: <br>
+   **Database Configuration**
+    - `spring.datasource.url` - database URL
+    - `spring.datasource.username` - database username
+    - `spring.datasource.password` - database password
+    - `spring.jpa.hibernate.ddl-auto` - database initialization mode
+    - `spring.jpa.properties.hibernate.dialect` - database dialect
+    - `spring.jpa.show-sql` - show SQL queries <br><br>
+   **JWT Configuration**
+    - `jwt.secret` - JWT secret key 
+    - `jwt.expiration` - JWT expiration time <br><br>
+   **Mail Configuration**
+    - `spring.mail.host` - SMTP server host
+    - `spring.mail.port` - SMTP server port
+    - `spring.mail.username` - SMTP server username
+    - `spring.mail.password` - SMTP server password
+         - **other properties for mail configuration**
+2. **.env** - environment variables for the docker compose file:
+    - `DATABASE_USER` - database username
+    - `DATABASE_PASSWORD` - database password
+    - `DATABASE_NAME` - database name
+
 
 ### Reference Documentation
 For further reference, please consider the following sections:
@@ -26,32 +123,65 @@ In this file, the following services have been defined:
 
 Please review the tags of the used images and set them to the same as you're running in production.
 
-# frontend
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
+## Project Structure
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### Backend
+- `src/main/java/dev/musicsystem/musicsystem` - Java source files
+- `src/main/resources` - Configuration files
 
-## Customize configuration
+### Frontend
+- `src` - Vue.js components, views, store, etc.
+- `public` - Static assets
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### Important Files
+- `pom.xml` - Maven configuration file
+- `package.json` - npm/Yarn configuration file
+- `README.md` - Project overview and instructions
 
-## Project Setup
 
-```sh
-npm install
-```
+## API Documentation
 
-### Compile and Hot-Reload for Development
+### Authentication
+- **Endpoint:** `POST /api/auth/login`
+- **Request:**
+    ```json
+    {
+      "username": "user",
+      "password": "password"
+    }
+    ```
+- **Response:**
+    ```json
+    {
+      "token": "jwt-token"
+    }
+    ```
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+### User Management
+- **Get User:**
+    - **Endpoint:** `GET /api/users/{id}`
+    - **Response:**
+        ```json
+        {
+          "id": 1,
+          "username": "user"
+        }
+        ```
+- **Create User:**
+    - **Endpoint:** `POST /api/users`
+    - **Request:**
+        ```json
+        {
+          "username": "newuser",
+          "password": "password"
+        }
+        ```
+    - **Response:**
+        ```json
+        {
+          "id": 2,
+          "username": "newuser"
+        }
+        ```
