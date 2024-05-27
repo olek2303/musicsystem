@@ -29,7 +29,7 @@ jobs:
           java-version: 17
       - name: Compile project
         run: |
-          musicsystem/.mvnw clean compile
+          musicsystem/mvnw clean compile
 
   unit-test:
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
           java-version: 17
       - name: Run unit tests
         run: |
-          musicsystem/.mvnw clean test
+          musicsystem/mvnw clean test
 
   build:
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
           java-version: 17
       - name: Build project
         run: |
-          musicsystem/.mvnw clean package
+          musicsystem/mvnw clean package
 
   docker-build:
     runs-on: ubuntu-latest
@@ -82,11 +82,11 @@ jobs:
           java-version: 17
       - name: Build project
         run: |
-          musicsystem/.mvnw clean package
+          musicsystem/mvnw clean package
       - name: Extract project verion
         id: extract_version
         run: |
-          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+          echo "VERSION=$(musicsystem/mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
       - name: Build Docker image
         run: |
           docker build -t musicsystem-api:latest -f musicsystem/docker/backend/Dockerfile .
