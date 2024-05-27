@@ -100,7 +100,8 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
           echo "Extracted version: $VERSION"
       - name: Debug version
-        run: echo "Extracted version: ${{ steps.extract_version.outputs.VERSION }}"
+        run: |
+          echo "Extracted version: ${{ steps.extract_version.outputs.VERSION }}"
       - name: Build Docker image
         run: |
           docker build -t musicsystem:latest -f docker/backend/Dockerfile .
