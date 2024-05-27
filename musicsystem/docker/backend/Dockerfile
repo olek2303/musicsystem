@@ -1,9 +1,9 @@
 # Build stage
 FROM maven:3.8.7-openjdk-18 AS build
 WORKDIR /build
-COPY musicsystem/pom.xml .
+COPY pom.xml .
 RUN mvn dependency:go-offline
-COPY musicsystem/src ./src
+COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
