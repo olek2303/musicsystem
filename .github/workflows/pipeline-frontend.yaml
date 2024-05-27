@@ -46,7 +46,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy to Docker Swarm
-    needs: [ docker-build ]
+    needs: [ build-image ]
     steps:
       - name: Create Deployment Folder
         run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p /home/${{ secrets.VPS_USERNAME }}/ci-cd"
