@@ -133,7 +133,7 @@ jobs:
       - name: Create Deployment Folder
         run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p /home/${{ secrets.VPS_USERNAME }}/ci-cd"
       - name: List files in current directory
-        run: ls
+        run: ls musicsystem
       - name: Copy docker-compose file
         run: scp musicsystem/compose.yaml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:/home/${{ secrets.VPS_USERNAME }}/ci-cd/compose.yaml
       - name: Set ENV variables and deploy
