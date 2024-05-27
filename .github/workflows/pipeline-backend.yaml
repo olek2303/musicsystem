@@ -29,6 +29,8 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
+      - name: Create fireCred.json from secret
+        run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
       - name: Compile project
         run: |
           cd musicsystem
@@ -49,6 +51,8 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
+      - name: Create fireCred.json from secret
+        run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
       - name: Run unit tests
         run: |
           cd musicsystem
@@ -70,6 +74,8 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
+      - name: Create fireCred.json from secret
+        run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
       - name: Build project
         run: |
           cd musicsystem
@@ -91,6 +97,8 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
+      - name: Create fireCred.json from secret
+        run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
       - name: Build project
         run: |
           cd musicsystem
