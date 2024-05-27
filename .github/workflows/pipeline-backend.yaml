@@ -29,8 +29,6 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
-      - name: Create fireCred.json from secret
-        run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
       - name: Compile project
         run: |
           cd musicsystem
@@ -51,8 +49,6 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
-      - name: Create fireCred.json from secret
-        run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
       - name: Run unit tests
         run: |
           cd musicsystem
@@ -74,10 +70,6 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
-      - name: Create fireCred.json from secret
-        run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
-      - name: Copy fireCred.json to docker directory
-        run: cp musicsystem/fireCred.json musicsystem/docker/backend/fireCred.json
       - name: Build project
         run: |
           cd musicsystem
@@ -101,38 +93,19 @@ jobs:
         run: chmod +x musicsystem/mvnw
       - name: Create fireCred.json from secret
         run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
-      - name: Copy fireCred.json to docker directory
-        run: cp musicsystem/fireCred.json musicsystem/docker/backend/fireCred.json
-      - name: Build project
+      - name: Set up Docker Buildx
         run: |
-          cd musicsystem
-          ./mvnw clean package
-      - name: Extract project version
-        id: extract_version
-        run: |
-          cd musicsystem
-          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+          docker run --privileged --rm tonistiigi/binfmt --install all
+          docker buildx create --use --name mybuilder
+          docker buildx inspect --bootstrap
       - name: Build Docker image
         run: |
-          docker build -t musicsystem:latest -f musicsystem/docker/backend/Dockerfile .
+          docker buildx build --build-arg PROFILE=dev --build-arg APP_VERSION=1.0.1 --file musicsystem/docker/backend/Dockerfile --platform linux/amd64,linux/arm64 --tag ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-api:latest --tag ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-api:1.0.1 --push .
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build & Push to DockerHub
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: musicsystem/docker/backend/Dockerfile
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-api:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-api:${{ steps.extract_version.outputs.VERSION }}
-          build-args: |
-            PROFILE=dev
-            APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
 
   deploy:
     runs-on: ubuntu-latest
