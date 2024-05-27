@@ -46,7 +46,7 @@ jobs:
           java-version: 17
       - name: Run unit tests
         run: |
-          musicsystem/mvnw clean test
+          ./musicsystem/mvnw clean test
 
   build:
     runs-on: ubuntu-latest
