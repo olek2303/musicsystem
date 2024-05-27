@@ -76,6 +76,8 @@ jobs:
         run: chmod +x musicsystem/mvnw
       - name: Create fireCred.json from secret
         run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
+      - name: Copy fireCred.json to docker directory
+        run: cp musicsystem/fireCred.json musicsystem/docker/backend/fireCred.json
       - name: Build project
         run: |
           cd musicsystem
@@ -99,6 +101,8 @@ jobs:
         run: chmod +x musicsystem/mvnw
       - name: Create fireCred.json from secret
         run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
+      - name: Copy fireCred.json to docker directory
+        run: cp musicsystem/fireCred.json musicsystem/docker/backend/fireCred.json
       - name: Build project
         run: |
           cd musicsystem
