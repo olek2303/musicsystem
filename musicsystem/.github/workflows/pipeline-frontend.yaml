@@ -1,0 +1,68 @@
+name: Music Review System Frontend CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - musicsystem/docker/frontend/**
+      - frontend/**
+      - musicsystem/.github/workflows/pipeline-frontend.yaml
+      - 'compose.yaml'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-image:
+    name: Build FE Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract Project Version
+        id: extract_version
+        run: |
+          cd frontend
+          echo "VERSION=$(grep -oP 'version: \K(.*)' package.json)" >> $GITHUB_ENV
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/frontend/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:${{ steps.extract_version.outputs.VERSION }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Docker Swarm
+    needs: [ docker-build ]
+    steps:
+      - name: Create Deployment Folder
+        run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p /home/${{ secrets.VPS_USERNAME }}/ci-cd"
+      - name: Copy docker-compose file
+        run: scp compose.yaml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:/home/${{ secrets.VPS_USERNAME }}/ci-cd/compose.yaml
+      - name: Set ENV variables and deploy
+        run: |
+          ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
+          cd /home/${{ secrets.VPS_USERNAME }}/ci-cd
+          docker-compose -f compose.yaml pull -q 
+          docker-compose -f compose.yaml up -d
+          EOF
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Deploy to Docker Swarm
+        run: |
+          docker stack deploy -c compose.yaml music-review-system-backend

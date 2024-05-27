@@ -1,0 +1,136 @@
+name: Music Review System Backend CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - musicsystem/docker/backend/**
+      - musicsystem/src/main/**
+      - musicsystem/.github/workflows/pipeline-backend.yaml
+      - 'compose.yaml'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    name: Compile project
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+      - name: Compile project
+        run: |
+          ./mvnw clean compile
+
+  unit-test:
+    runs-on: ubuntu-latest
+    name: Run unit tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+      - name: Run unit tests
+        run: |
+          ./mvnw clean test
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build project
+    needs: [compile, unit-test]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+      - name: Build project
+        run: |
+          ./mvnw clean package
+
+  docker-build:
+    runs-on: ubuntu-latest
+    name: Build Docker image
+    needs: [build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: 17
+      - name: Build project
+        run: |
+          ./mvnw clean package
+      - name: Extract project verion
+        id: extract_version
+        run: |
+          echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
+      - name: Build Docker image
+        run: |
+          docker build -t musicsystem-api:latest -f docker/backend/Dockerfile .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build & Push to DockerHub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/backend/Dockerfile
+          push: true
+          platforms: linux/amd64,linux/arm64
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-api:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-api:${{ steps.extract_version.outputs.VERSION }}
+          build-args: |
+            PROFILE=dev
+            APP_VERSION=${{ steps.extract_version.outputs.VERSION }}
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Docker Swarm
+    needs: [docker-build]
+    steps:
+      - name: Create Deployment Folder
+        run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p /home/${{ secrets.VPS_USERNAME }}/ci-cd"
+      - name: Copy docker-compose file
+        run: scp compose.yaml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:/home/${{ secrets.VPS_USERNAME }}/ci-cd/compose.yaml
+      - name: Set ENV variables and deploy
+        run: |
+          ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
+          export EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}
+          export EMAIL_HOSTNAME=${{ secrets.EMAIL_HOSTNAME }}
+          export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+          cd /home/${{ secrets.VPS_USERNAME }}/ci-cd
+          docker-compose -f compose.yaml pull -q 
+          docker-compose -f compose.yaml up -d
+          EOF
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Deploy to Docker Swarm
+        run: |
+          docker stack deploy -c compose.yaml music-review-system-backend

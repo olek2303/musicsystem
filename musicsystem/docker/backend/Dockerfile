@@ -18,5 +18,9 @@ WORKDIR /app
 COPY --from=build /build/target/musicsystem-*.jar /app/
 COPY fireCred.json /app/musicsystem/fireCred.json
 
+ENV EMAIL_USERNAME=missing_username
+ENV EMAIL_HOSTNAME=missing_host_name
+ENV EMAIL_PASSWORD=missing_password
+
 EXPOSE 8088
 CMD java -jar -Dspring-profiles.active=${PROFILE} -Dspring.datasource.url=${DB_URL} musicsystem-${APP_VERSION}.jar
