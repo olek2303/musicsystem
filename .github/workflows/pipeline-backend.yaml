@@ -89,7 +89,7 @@ jobs:
           echo "VERSION=$(./mvnw -q -Dexec.executable='echo' -Dexec.args='${project.version}' --non-recursive exec:exec)" >> $GITHUB_OUTPUT
       - name: Build Docker image
         run: |
-          docker build -t musicsystem-api:latest -f docker/backend/Dockerfile .
+          docker build -t musicsystem-api:latest -f musicsystem/docker/backend/Dockerfile .
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -124,8 +124,8 @@ jobs:
           export EMAIL_HOSTNAME=${{ secrets.EMAIL_HOSTNAME }}
           export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
           cd /home/${{ secrets.VPS_USERNAME }}/ci-cd
-          docker-compose -f compose.yaml pull -q 
-          docker-compose -f compose.yaml up -d
+          docker-compose -f musicsystem/compose.yaml pull -q 
+          docker-compose -f musicsystem/compose.yaml up -d
           EOF
       - name: Checkout
         uses: actions/checkout@v4
@@ -133,4 +133,4 @@ jobs:
           fetch-depth: 0
       - name: Deploy to Docker Swarm
         run: |
-          docker stack deploy -c compose.yaml music-review-system-backend
+          docker stack deploy -c musicsystem/compose.yaml music-review-system-backend

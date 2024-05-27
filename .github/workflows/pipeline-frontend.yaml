@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - musicsystem/docker/frontend/**
-      - frontend/**
+      - musicsystem/frontend/**
       - musicsystem/.github/workflows/pipeline-frontend.yaml
       - 'compose.yaml'
   pull_request:
@@ -36,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: docker/frontend/Dockerfile
+          file: musicsystem/docker/frontend/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
@@ -56,8 +56,8 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
           cd /home/${{ secrets.VPS_USERNAME }}/ci-cd
-          docker-compose -f compose.yaml pull -q 
-          docker-compose -f compose.yaml up -d
+          docker-compose -f musicsystem/compose.yaml pull -q 
+          docker-compose -f musicsystem/compose.yaml up -d
           EOF
       - name: Checkout
         uses: actions/checkout@v4
@@ -65,4 +65,4 @@ jobs:
           fetch-depth: 0
       - name: Deploy to Docker Swarm
         run: |
-          docker stack deploy -c compose.yaml music-review-system-backend
+          docker stack deploy -c musicsystem/compose.yaml music-review-system-backend
