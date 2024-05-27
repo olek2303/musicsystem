@@ -135,7 +135,7 @@ jobs:
           ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p /home/${{ secrets.VPS_USERNAME }}/ci-cd"
           exit  # Wyloguj się po utworzeniu folderu
       - name: Copy docker-compose file
-        run: scp musicsystem/compose.yaml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:/home/${{ secrets.VPS_USERNAME }}/ci-cd/compose.yaml
+        run: scp compose.yaml ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }}:/home/${{ secrets.VPS_USERNAME }}/ci-cd/compose.yaml
       - name: Set ENV variables and deploy
         run: |
           ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
