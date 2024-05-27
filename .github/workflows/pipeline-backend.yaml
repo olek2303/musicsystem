@@ -27,6 +27,8 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: 17
+      - name: Set execute permissions for mvnw
+        run: chmod +x musicsystem/mvnw
       - name: Compile project
         run: |
           cd musicsystem
@@ -45,6 +47,8 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: 17
+      - name: Set execute permissions for mvnw
+        run: chmod +x musicsystem/mvnw
       - name: Run unit tests
         run: |
           cd musicsystem
@@ -64,6 +68,8 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: 17
+      - name: Set execute permissions for mvnw
+        run: chmod +x musicsystem/mvnw
       - name: Build project
         run: |
           cd musicsystem
@@ -83,6 +89,8 @@ jobs:
         with:
           distribution: 'corretto'
           java-version: 17
+      - name: Set execute permissions for mvnw
+        run: chmod +x musicsystem/mvnw
       - name: Build project
         run: |
           cd musicsystem
