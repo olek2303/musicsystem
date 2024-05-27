@@ -15,7 +15,7 @@ on:
 
 jobs:
   compile:
-    runs-on: self-hosted  # zmienione na samodzielnie hostowane
+    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
     name: Compile project
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
           ./mvnw clean compile
 
   unit-test:
-    runs-on: self-hosted  # zmienione na samodzielnie hostowane
+    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
     name: Run unit tests
     steps:
       - name: Checkout
@@ -55,7 +55,7 @@ jobs:
           ./mvnw clean test
 
   build:
-    runs-on: self-hosted  # zmienione na samodzielnie hostowane
+    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
     name: Build project
     needs: [compile, unit-test]
     steps:
@@ -76,7 +76,7 @@ jobs:
           ./mvnw clean package
 
   docker-build:
-    runs-on: self-hosted  # zmienione na samodzielnie hostowane
+    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
     name: Build Docker image
     needs: [build]
     steps:
@@ -120,7 +120,7 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem:${{ steps.extract_version.outputs.VERSION }}
 
   deploy:
-    runs-on: self-hosted  # zmienione na samodzielnie hostowane
+    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
     name: Deploy to Docker Swarm
     needs: [docker-build]
     steps:
