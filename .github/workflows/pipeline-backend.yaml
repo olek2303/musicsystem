@@ -15,8 +15,8 @@ on:
 
 jobs:
   compile:
-    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
-    name: Compile project
+    runs-on: ubuntu-latest
+    name: Compile Backend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,8 +35,8 @@ jobs:
           ./mvnw clean compile
 
   unit-test:
-    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
-    name: Run unit tests
+    runs-on: ubuntu-latest
+    name: Run Backend Unit Tests
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,14 +49,14 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
-      - name: Run unit tests
+      - name: Run Backend Unit Tests
         run: |
           cd musicsystem
           ./mvnw clean test
 
   build:
-    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
-    name: Build project
+    runs-on: ubuntu-latest
+    name: Build Backend
     needs: [compile, unit-test]
     steps:
       - name: Checkout
@@ -70,13 +70,13 @@ jobs:
           java-version: 17
       - name: Set execute permissions for mvnw
         run: chmod +x musicsystem/mvnw
-      - name: Build project
+      - name: Build Backend
         run: |
           cd musicsystem
           ./mvnw clean package
 
   docker-build:
-    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
+    runs-on: ubuntu-latest
     name: Build Docker image
     needs: [build]
     steps:
@@ -120,10 +120,16 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem:${{ steps.extract_version.outputs.VERSION }}
 
   deploy:
-    runs-on: ubuntu-latest  # użyj domyślnego runnera GitHub
-    name: Deploy to Docker Swarm
+    runs-on: ubuntu-latest
+    name: Deploy Backend to Docker Swarm
     needs: [docker-build]
     steps:
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add known hosts
+        run: ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
       - name: Create Deployment Folder
         run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p /home/${{ secrets.VPS_USERNAME }}/ci-cd"
       - name: Copy docker-compose file
@@ -135,13 +141,6 @@ jobs:
           export EMAIL_HOSTNAME=${{ secrets.EMAIL_HOSTNAME }}
           export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
           cd /home/${{ secrets.VPS_USERNAME }}/ci-cd
-          docker-compose -f musicsystem/compose.yaml pull -q 
-          docker-compose -f musicsystem/compose.yaml up -d
+          docker-compose -f compose.yaml pull -q
+          docker-compose -f compose.yaml up -d
           EOF
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Deploy to Docker Swarm
-        run: |
-          docker stack deploy -c musicsystem/compose.yaml music-review-system-backend

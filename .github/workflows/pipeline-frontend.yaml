@@ -49,6 +49,12 @@ jobs:
     name: Deploy to Docker Swarm
     needs: [ build-image ]
     steps:
+      - name: Add SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Add known hosts
+        run: ssh-keyscan -H ${{ secrets.VPS_IP }} >> ~/.ssh/known_hosts
       - name: Create Deployment Folder
         run: ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} "mkdir -p /home/${{ secrets.VPS_USERNAME }}/ci-cd"
       - name: Copy docker-compose file
@@ -57,7 +63,7 @@ jobs:
         run: |
           ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_IP }} <<EOF
           cd /home/${{ secrets.VPS_USERNAME }}/ci-cd
-          docker-compose -f compose.yaml pull -q 
+          docker-compose -f compose.yaml pull -q
           docker-compose -f compose.yaml up -d
           EOF
       - name: Checkout
