@@ -36,7 +36,6 @@ jobs:
 
       - name: Build Docker image
         run: |
-          cd musicsystem
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:latest -f docker/frontend/Dockerfile .
 
       - name: Push Docker image
