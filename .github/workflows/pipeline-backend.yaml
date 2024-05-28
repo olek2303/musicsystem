@@ -110,7 +110,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Docker image
         run: |
-          cd musicsystem
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem:latest -f docker/backend/Dockerfile .
       - name: Push Docker image
         run: |
