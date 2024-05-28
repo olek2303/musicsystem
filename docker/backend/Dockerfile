@@ -25,4 +25,4 @@ ENV EMAIL_HOSTNAME=missing_host_name
 ENV EMAIL_PASSWORD=missing_password
 
 EXPOSE 8088
-CMD java -jar -Dspring-profiles.active=${PROFILE} -Dspring.datasource.url=${DB_URL} musicsystem-${APP_VERSION}.jar
+CMD java -jar -Dspring-profiles.active=${PROFILE} -Dspring.config.additional-location=file:/app/src/main/resources -Dspring.datasource.url=${DB_URL} musicsystem-${APP_VERSION}.jar
