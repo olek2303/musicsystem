@@ -33,21 +33,22 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build & Push to DockerHub
-        uses: docker/build-push-action@v5
-        with:
-          context: musicsystem
-          file: musicsystem/docker/frontend/Dockerfile
-          push: true
-          platforms: linux/amd64,linux/arm64
-          tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:${{ env.VERSION }}
+
+      - name: Build Docker image
+        run: |
+          cd musicsystem
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:latest -f docker/frontend/Dockerfile .
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:latest
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:latest ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:${{ steps.extract_version.outputs.VERSION }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/musicsystem-front:${{ steps.extract_version.outputs.VERSION }}
 
   deploy:
     runs-on: ubuntu-latest
     name: Deploy to Docker Swarm
-    needs: [ build-image ]
+    needs: [build-image]
     steps:
       - name: Add SSH key
         uses: webfactory/ssh-agent@v0.5.3
