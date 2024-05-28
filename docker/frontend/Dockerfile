@@ -1,9 +1,10 @@
 FROM node:16 as build-stage
+RUN npm install -g http-server
 WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build --prod
+RUN npm run build
 
 FROM nginx:stable-alpine
 COPY frontend/nginx.conf /etc/nginx/nginx.conf
