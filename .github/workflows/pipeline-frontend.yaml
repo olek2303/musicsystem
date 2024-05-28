@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - docker/frontend/**
+      - musicsystem/docker/frontend/**
       - frontend/**
       - .github/workflows/pipeline-frontend.yaml
       - 'compose.yaml'
