@@ -138,7 +138,7 @@ jobs:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_KEY }}
-          source: 'compose.yaml'
+          source: 'musicsystem/compose.yaml'
           target: '/home/${{ secrets.VPS_USERNAME }}/ci-cd/compose.yaml'
       - name: Set ENV variables and deploy
         run: |
