@@ -21,26 +21,28 @@ services:
       - 1080:1080
       - 1025:1025
 
-musicsystem-api:
-  container_name: musicsystem-api
-  image: 5b236e6d3a39:1.0.1
-  ports:
-    - 8088:8088
-  depends_on:
-    - postgres
-  networks:
-    - spring-demo
-  restart: unless-stopped
-musicsystem-front:
-  container_name: musicsystem-front
-  image: d88b438ac9f0:1.0.0
-  ports:
-    - 8080:80
-  networks:
-    - spring-demo
-  depends_on:
-    - musicsystem-api
-  restart: unless-stopped
+  musicsystem-api:
+    container_name: musicsystem-api
+    image: 5b236e6d3a39:1.0.1
+    ports:
+      - 8088:8088
+    depends_on:
+      - postgres
+    networks:
+      - spring-demo
+    restart: unless-stopped
+
+  musicsystem-front:
+    container_name: musicsystem-front
+    image: d88b438ac9f0:1.0.0
+    ports:
+      - 8080:80
+    networks:
+      - spring-demo
+    depends_on:
+      - musicsystem-api
+    restart: unless-stopped
+
 volumes:
   postgres:
     driver: local
