@@ -2,7 +2,7 @@ FROM node:16 as build-stage
 WORKDIR /app
 COPY frontend/package*.json ./
 RUN npm install
-COPY frontend .
+COPY . .
 RUN npm run build --prod
 
 FROM nginx:stable-alpine
