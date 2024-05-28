@@ -8,13 +8,13 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
-  build: {
-    rollupVersion: {
-      input: {
-        main: resolve('frontend', 'index.html')
-      }
-    },
-  },
+  // build: {
+  //   rollupVersion: {
+  //     input: {
+  //       main: resolve('index.html')
+  //     }
+  //   },
+  // },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
