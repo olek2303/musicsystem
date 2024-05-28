@@ -127,6 +127,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: List files in the repository
+        run: ls -R
+
       - name: Add SSH key
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -144,7 +147,7 @@ jobs:
           host: ${{ secrets.VPS_IP }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_KEY }}
-          source: 'musicsystem/compose.yaml'
+          source: 'compose.yaml'
           target: '/home/${{ secrets.VPS_USERNAME }}/ci-cd/compose.yaml'
 
       - name: Set ENV variables and deploy
