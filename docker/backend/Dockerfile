@@ -1,9 +1,9 @@
 # Build stage
 FROM maven:3.8.7-openjdk-18 AS build
 WORKDIR /build
-COPY musicsystem/pom.xml .
+COPY pom.xml .
 RUN mvn dependency:go-offline
-COPY musicsystem/src ./src
+COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Runtime stage
@@ -16,9 +16,9 @@ ENV DB_URL=jdbc:postgresql://postgres-music-system:5432/musicsystem
 
 WORKDIR /app
 COPY --from=build /build/target/musicsystem-*.jar /app/
-COPY musicsystem/fireCred.json /app/musicsystem/fireCred.json
-COPY musicsystem/src/main/resources/application.yml /app/musicsystem/src/main/resources/application.yml
-COPY musicsystem/src/main/resources/application-dev.yml /app/musicsystem/src/main/resources/application-dev.yml
+COPY fireCred.json /app/musicsystem/fireCred.json
+COPY src/main/resources/application.yml /app/musicsystem/src/main/resources/application.yml
+COPY src/main/resources/application-dev.yml /app/musicsystem/src/main/resources/application-dev.yml
 
 ENV EMAIL_USERNAME=missing_username
 ENV EMAIL_HOSTNAME=missing_host_name
