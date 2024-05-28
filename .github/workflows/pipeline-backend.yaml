@@ -156,6 +156,9 @@ jobs:
           export EMAIL_USERNAME=${{ secrets.EMAIL_USERNAME }}
           export EMAIL_HOSTNAME=${{ secrets.EMAIL_HOSTNAME }}
           export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}
+          export DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+          export DATABASE_USER=${{ secrets.DATABASE_USER }}
+          export DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
           cd /home/${{ secrets.VPS_USERNAME }}/ci-cd
           docker-compose -f compose.yaml pull -q
           docker-compose -f compose.yaml up -d
