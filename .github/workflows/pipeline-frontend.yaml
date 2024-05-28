@@ -71,6 +71,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Deploy to Docker Swarm
-        run: |
-          docker stack deploy -c compose.yaml music-review-system-frontend
+#      - name: Deploy to Docker Swarm
+#        run: |
+#          docker stack deploy -c compose.yaml music-review-system-frontend
