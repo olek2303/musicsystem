@@ -23,7 +23,7 @@ services:
 
   musicsystem-api:
     container_name: musicsystem-api
-    image: 5b236e6d3a39:1.0.1
+    image: olek2303/musicsystem:1.0.1
     ports:
       - 8088:8088
     depends_on:
@@ -34,7 +34,7 @@ services:
 
   musicsystem-front:
     container_name: musicsystem-front
-    image: d88b438ac9f0:1.0.0
+    image: olek2303/musicsystem-front:1.0.0
     ports:
       - 8080:80
     networks:
