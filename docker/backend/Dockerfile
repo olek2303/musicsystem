@@ -18,7 +18,7 @@ WORKDIR /app
 COPY --from=build /build/target/musicsystem-*.jar /app/
 COPY fireCred.json /app/musicsystem/fireCred.json
 COPY src/main/resources/application.yml /app/musicsystem/src/main/resources/application.yml
-COPY src/main/resources/application-dev.yml /app/musicsystem/src/main/resources/application-dev.yml
+#COPY src/main/resources/application-dev.yml /app/musicsystem/src/main/resources/application-dev.yml
 
 ENV EMAIL_USERNAME=missing_username
 ENV EMAIL_HOSTNAME=missing_host_name
