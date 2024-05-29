@@ -17,12 +17,13 @@ ENV DB_URL=jdbc:postgresql://postgres-music-system:5432/musicsystem
 WORKDIR /app
 COPY --from=build /build/target/musicsystem-*.jar /app/
 COPY fireCred.json /musicsystem/fireCred.json
-COPY src/main/resources/application.yml /config/application.yml
-COPY src/main/resources/application-dev.yml /config/application-dev.yml
+RUN mkdir /app/config
+COPY src/main/resources/application.yml /app/config/application.yml
+COPY src/main/resources/application-dev.yml /app/config/application-dev.yml
 
 ENV EMAIL_USERNAME=missing_username
 ENV EMAIL_HOSTNAME=missing_host_name
 ENV EMAIL_PASSWORD=missing_password
 
 EXPOSE 8088
-CMD java -jar -Dspring-profiles.active=${PROFILE} -Dspring.config.additional-location=file:/app/config -Dspring.datasource.url=${DB_URL} musicsystem-${APP_VERSION}.jar
+CMD java -jar -Dspring.profiles.active=${PROFILE} -Dspring.config.additional-location=file:/app/config/ -Dspring.datasource.url=${DB_URL} musicsystem-${APP_VERSION}.jar
