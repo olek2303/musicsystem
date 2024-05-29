@@ -93,10 +93,10 @@ jobs:
         run: chmod +x musicsystem/mvnw
       - name: Create fireCred.json from secret
         run: echo "${{ secrets.FIRECRED_JSON }}" > musicsystem/fireCred.json
-#      - name: Create application-dev.yml from secret
-#        run: echo "${{ secrets.APPLICATION_DEV_YML }}" > musicsystem/src/main/resources/application-dev.yml
-#      - name: Create application.yml from secret
-#        run: echo "${{ secrets.APPLICATION_YML }}" > musicsystem/src/main/resources/application.yml
+      - name: Create application-dev.yml from secret
+        run: echo "${{ secrets.APPLICATION_DEV_YML }}" > musicsystem/src/main/resources/application-dev.yml
+      - name: Create application.yml from secret
+        run: echo "${{ secrets.APPLICATION_YML }}" > musicsystem/src/main/resources/application.yml
       - name: Extract project version
         id: extract_version
         run: |
