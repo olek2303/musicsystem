@@ -16,7 +16,7 @@ ENV DB_URL=jdbc:postgresql://postgres-music-system:5432/musicsystem
 
 WORKDIR /app
 COPY --from=build /build/target/musicsystem-*.jar /app/
-COPY fireCred.json /musicsystem/fireCred.json
+COPY fireCred.json /app/musicsystem/fireCred.json
 RUN mkdir /app/config
 COPY src/main/resources/application.yml /app/config/application.yml
 COPY src/main/resources/application-dev.yml /app/config/application-dev.yml
