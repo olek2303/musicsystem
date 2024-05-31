@@ -32,7 +32,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('/albums');
+      const response = await axios.get('/api/v1/albums');
       this.albums = response.data;
     } catch (error) {
       console.error(error);
