@@ -40,5 +40,5 @@ application-dev.yml
 .secrets
 ### VS Code ###
 .vscode/
-./frontend/.env
+!./frontend/src/.env
 .env

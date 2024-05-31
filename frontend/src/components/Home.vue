@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '../axios'
 
 export default {
   data() {
@@ -32,7 +32,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('http://localhost:8088/api/v1/albums');
+      const response = await axios.get('/albums');
       this.albums = response.data;
     } catch (error) {
       console.error(error);
