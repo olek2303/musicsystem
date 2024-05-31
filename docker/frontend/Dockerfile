@@ -1,7 +1,7 @@
 FROM node:lts-alpine as build-stage
-RUN npm install -g http-server
 WORKDIR /app
 COPY frontend/package*.json ./
+COPY frontend/.env .env
 RUN npm install
 COPY frontend/ .
 RUN npm run build
