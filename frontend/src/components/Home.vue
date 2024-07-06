@@ -32,7 +32,7 @@ export default {
   },
   async created() {
     try {
-      const response = await axios.get('/api/v1/albums');
+      const response = await axios.get('/albums');
       this.albums = response.data;
     } catch (error) {
       console.error(error);
@@ -42,7 +42,7 @@ export default {
     async goToReview(albumId) {
       try {
         if (!isNaN(albumId) && parseInt(albumId) > 0) {
-          const response = await axios.get(`http://localhost:8088/api/v1/albums/${albumId}`);
+          const response = await axios.get(`/albums/${albumId}`);
           const reviewData = response.data;
 
           await this.$router.push({ name: 'review', params: { id: albumId }, query: { reviewData } });
