@@ -38,7 +38,7 @@ export default {
       console.log('register method called') // Add this line
       console.log('user data:', this.user) // Add this line
       try {
-        const response = await axios.post('https://musicreviews.karpiuk.dev/api/v1/auth/register', this.user)
+        const response = await axios.post(import.meta.env.VITE_API_URL + 'auth/register', this.user)
         console.log('response:', response) // Add this
         alert('Registration successful. Please check your email to activate your account.')
       } catch (error) {

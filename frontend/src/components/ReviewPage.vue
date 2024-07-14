@@ -42,7 +42,7 @@ export default {
   async created() {
     try {
       const albumId = this.$route.params.id;
-      const response = await axios.get(`https://musicreviews.karpiuk.dev/api/v1/albums/${albumId}`);
+      const response = await axios.get(import.meta.env.VITE_API_URL+`albums/${albumId}`);
 
 
       const {album, review, comments} = response.data;
