@@ -31,6 +31,7 @@ public class AlbumService {
         }
     }
 
+
     public void deleteAlbum(Long albumId) {
         albumRepository.deleteById(albumId);
     }

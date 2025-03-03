@@ -14,6 +14,7 @@ export default {
 }
 </script>
 
+
 <style scoped>
 /* Add your CSS styles for the footer here */
 </style>
