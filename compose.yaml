@@ -36,7 +36,7 @@ services:
     container_name: musicsystem-front
     image: olek2303/musicsystem-front:1.0.0
     ports:
-      - 8080:80
+      - 8081:81
     networks:
       - spring-demo
     depends_on:
